@@ -1,0 +1,1 @@
+<h3 class="title-5 m-b-35">{{ $slot }}</h3>

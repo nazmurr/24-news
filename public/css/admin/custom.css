@@ -1,0 +1,13 @@
+.img-cir {
+    border: 1px solid #ddd;
+}
+
+.was-validated .form-control.is-invalid {
+    border-color: #dc3545;
+}
+
+.pagination-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}

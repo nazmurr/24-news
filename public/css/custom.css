@@ -1,0 +1,38 @@
+.fh5co_news_img img {
+    /*height: 260px;
+    min-width: 100%;*/
+    width: 100%;
+    height: 100%;
+}
+
+.most_fh5co_treding_font a {
+    color: inherit;
+}
+
+.contact_us_bg_img {
+    background: url('/images/photo-1449157291145-7efd050a4d0e-578x362.jpg');
+    background-size: cover;
+}
+
+.contact_btn {
+    cursor: pointer;
+}
+
+.pagination-wrap .disabled, .pagination-wrap .disabled:hover {
+    cursor: not-allowed;
+    opacity: 0.5;
+    text-decoration: none;
+    background: #f1f1f1;
+    color: #222 !important;
+}
+
+.pagination-wrap .active {
+    background: #222 !important;
+    color: #fff !important;
+}
+
+#header-search-form {
+    width: 400px;
+    float: right;
+    display: none;
+}
