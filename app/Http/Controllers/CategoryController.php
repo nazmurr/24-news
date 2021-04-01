@@ -57,8 +57,11 @@ class CategoryController extends Controller
     public function show($slugString)
     {
         $category = Category::findBySlugOrFail($slugString);
-        $categoryPosts = Post::with('category')->where('category_id', $category->id)->latest()->paginate(10);
-        $popularPosts = Post::orderByViews()->take(4)->get();
+        $categoryPosts = Post::with('category')->where([
+            ['category_id', $category->id],
+            ['post_status', 'publish']
+            ])->latest()->paginate(10);
+        $popularPosts = Post::where('post_status', 'publish')->orderByViews()->take(4)->get();
 
         return view('categories.single', compact('category', 'categoryPosts', 'popularPosts'));  
     }

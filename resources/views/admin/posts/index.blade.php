@@ -21,27 +21,35 @@
                             </button>
                         </div>
                     @endif
-                    <div class="table-responsive m-b-40">
-                        <table class="table table-borderless table-data3">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Owner</th>
-                                    <th>Created</th>
-                                    <th>Updated</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if($posts)
+                    @if($posts->count())
+                        <div class="table-responsive m-b-40">
+                            <table class="table table-borderless table-data3">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Owner</th>
+                                        <th>Status</th>
+                                        <th>Created</th>
+                                        <th>Updated</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @foreach ($posts as $post)
                                         <tr>
                                             <td>{{$post->id}}</td>
                                             <td><a href="{{url('admin/posts/'.$post->id.'/edit')}}">{{$post->title}}</a></td>
                                             <td>{{$post->category->name}}</td>
                                             <td>{{$post->user->name}}</td>
+                                            <td style="font-size: 16px;">
+                                                @if ($post->post_status === 'publish')
+                                                    <span class="badge bg-success text-light">Published</span>
+                                                @else
+                                                    <span class="badge bg-danger text-light">Pending</span>  
+                                                @endif
+                                            </td>
                                             <td>{{$post->created_at->diffForHumans()}}</td>
                                             <td>{{$post->updated_at->diffForHumans()}}</td>
                                             <td>
@@ -59,13 +67,15 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                @endif
-                            </tbody>
-                        </table>
-                        <div class="pagination-wrap">
-                            {{ $posts->links() }}
+                                </tbody>
+                            </table>
+                            <div class="pagination-wrap">
+                                {{ $posts->links() }}
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <p>Sorry no posts found</p>
+                    @endif
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@ class Post extends Model implements Viewable
     use InteractsWithViews;
 
     protected $fillable = [
-        'user_id', 'category_id', 'photo_id', 'title', 'content'
+        'user_id', 'category_id', 'photo_id', 'title', 'content', 'post_status'
     ];
 
     /**

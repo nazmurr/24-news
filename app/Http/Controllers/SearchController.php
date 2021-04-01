@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
@@ -15,11 +16,14 @@ class SearchController extends Controller
      */
     public function search(Request $request)
     {
-        $posts = Post::where('title','LIKE','%'.$request->q.'%')
-            ->orWhere('content','LIKE','%'.$request->q.'%')
+        $posts = Post::where('post_status', 'publish')
+            ->where(function($query) use($request) {
+                $query->where('title','LIKE','%'.$request->q.'%')
+                ->orWhere('content','LIKE','%'.$request->q.'%');
+            })
             ->paginate(10);
 
-        $popularPosts = Post::orderByViews()->take(4)->get();
+        $popularPosts = Post::where('post_status', 'publish')->orderByViews()->take(4)->get();
 
         return view('search')
             ->withPosts($posts)

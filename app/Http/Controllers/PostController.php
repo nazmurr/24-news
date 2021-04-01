@@ -52,12 +52,15 @@ class PostController extends Controller
 
         $relatedPosts = Post::where([
             ['category_id', $post->category_id],
+            ['post_status', 'publish'],
             ['id', '!=', $post->id]    
         ])
         ->orderBy('updated_at', 'DESC')
         ->take(20)->get();
         
-        $popularPosts = Post::where('id', '!=', $post->id)->orderByViews()->take(4)->get();
+        $popularPosts = Post::where([
+            ['id', '!=', $post->id], ['post_status', 'publish']
+            ])->orderByViews()->take(4)->get();
 
         return view('posts.single', compact('post', 'relatedPosts', 'popularPosts'));
     }

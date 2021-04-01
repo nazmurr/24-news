@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use App\Http\Requests\AddUserRequest;
 use App\Http\Requests\EditUserRequest;
 use Illuminate\Support\Facades\Session;
@@ -25,7 +27,7 @@ class AdminUsersController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::orderBy('id', 'desc')->paginate(10);
         return view('admin.users.index', compact('users'));
     }
 
@@ -172,8 +174,13 @@ class AdminUsersController extends Controller
      */
     public function destroy($id)
     {
-        User::findOrFail($id)->delete();
-        //Post::whereCategoryId($id)->update(['category_id' => 6]);
+        $user = User::findOrFail($id);
+        if (File::exists(public_path('/uploads/users/'.$user->profile_pic))) {
+            File::delete(public_path('/uploads/users/'.$user->profile_pic));
+        } 
+        $user->delete();
+        Post::whereUserId($id)->delete();
+
         Session::flash('flash_admin', 'User #'.$id.' deleted successfully!');
         return redirect('/admin/users');
     }

@@ -26,13 +26,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $popularPosts = Post::orderByViews()->take(4)->get();
-        $featuredPosts = Post::orderByViews()->take(5)->get();
-        $trendingPosts = Post::orderByViews('desc', Period::pastDays(1))->take(10)->get();
+        $popularPosts = Post::where('post_status', 'publish')->orderByViews()->take(4)->get();
+        $featuredPosts = Post::where('post_status', 'publish')->orderByViews()->take(5)->get();
+        $trendingPosts = Post::where('post_status', 'publish')->orderByViews('desc', Period::pastDays(1))->take(10)->get();
         $catList = Category::pluck('id')->all();
         $topPosts = [];
         foreach ($catList as $catId) {
-            $post = Post::where('category_id', $catId)->latest()->first();
+            $post = Post::where([
+                ['category_id', $catId], ['post_status', 'publish']
+                ])->latest()->first();
             if ($post !== null) $topPosts[] = $post;
         }          
 

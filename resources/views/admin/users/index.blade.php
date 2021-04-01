@@ -64,6 +64,9 @@
                                 @endif
                             </tbody>
                         </table>
+                        <div class="pagination-wrap">
+                            {{ $users->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -18,13 +18,12 @@ use Illuminate\Support\Facades\Session;
 */
 
 /* next day work points
-- remove all posts of user if user is deleted
-- add post status pending, publish
-- fix password reset page
-- add commenting system
-- add button in dashboard header to go to website
+- add post status pending, publish (done)
+- add commenting system (submit commment from website, edit/delete/show comments in dashboard, publish/unpublish comment as admin)
+- add button in dashboard header to go to website (done)
 - add nav menu support in dashboard so in website navigation can be configured from dashboard
-- add pagination for users list page in dashboard
+- add pagination for users list page in dashboard (done)
+- fix dashboard homepage
 */
 
 Route::get('/', function () {

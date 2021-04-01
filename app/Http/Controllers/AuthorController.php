@@ -57,7 +57,9 @@ class AuthorController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
-        $userPosts = Post::where('user_id', $user->id)->latest()->paginate(10);
+        $userPosts = Post::where([
+            ['user_id', $user->id], ['post_status', 'publish']
+            ])->latest()->paginate(10);
         $popularPosts = Post::orderByViews()->take(4)->get();
 
         return view('authors.single', compact('user', 'userPosts', 'popularPosts'));  

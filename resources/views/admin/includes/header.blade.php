@@ -7,19 +7,14 @@
                         <img src="{{ asset('images/white_logo.png') }}" alt="24 News" />
                     </a>
                 </div>
-                {{-- <div class="header-button2">
-                    <div class="header-button-item js-item-menu">
-                        <i class="zmdi zmdi-search"></i>
-                        <div class="search-dropdown js-dropdown">
-                            <form action="">
-                                <input class="au-input au-input--full au-input--h65" type="text" placeholder="Search" />
-                                <span class="search-dropdown__icon">
-                                    <i class="zmdi zmdi-search"></i>
-                                </span>
-                            </form>
-                        </div>
+                <div class="header-button2">
+                    <div class="header-button-item">
+                        <a href="{{ url('/') }}" title="Go to website" target="_blank" style="color: #fff">
+                            <i class="zmdi zmdi-open-in-new"></i>
+                        </a>
+                        
                     </div>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>

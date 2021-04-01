@@ -79,6 +79,7 @@ class AdminPostsController extends Controller
         } else $input['photo_id'] = 0;
 
         $input['user_id'] = Auth::user()->id;
+        $input['post_status'] = Auth::user()->role->name === 'administrator' ? 'publish' : 'pending';
         Post::create($input);
         Session::flash('flash_admin', 'Post created successfully!');
         return redirect('admin/posts');

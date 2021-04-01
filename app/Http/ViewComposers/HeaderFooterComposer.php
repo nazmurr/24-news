@@ -21,11 +21,15 @@ class HeaderFooterComposer
      */
     public function __construct()
     {
-        $this->popularPosts = Post::orderByViews()->take(3)->get();
-        $this->lastModifiedPosts = Post::select('photo_id','slug')->orderBy('updated_at', 'desc')->take(9)->get();
+        $this->popularPosts = Post::where('post_status', 'publish')->orderByViews()->take(3)->get();
+        $this->lastModifiedPosts = Post::select('photo_id','slug')
+            ->where('post_status', 'publish')
+            ->orderBy('updated_at', 'desc')
+            ->take(9)
+            ->get();
         $this->categories = Category::where('id', '!=',  1)->get();
 
-        $this->trendingPost = Post::orderByViews()->first();
+        $this->trendingPost = Post::where('post_status', 'publish')->orderByViews()->first();
 
         $this->settings = [];
 

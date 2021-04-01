@@ -64,6 +64,16 @@
                                             <img @if ($post->photo_id) style="display: block" @endif src="{{ $post->photo_id ? url('uploads/posts/'.$post->photo['filename']): '' }}" id="featured_img" />
                                             <p><a href="#" @if ($post->photo_id) style="display: block" @endif class="remove_img_link">Remove Image</a></p>
                                         </div>
+                                        @if (Auth::user()->role->name === 'administrator')
+                                            <div class="form-group has-success">
+                                                <label for="post_status" class="control-label mb-1">Post Status</label>
+                                                <select name="post_status" id="post_status" class="form-control custom-select" required>
+                                                    <option value="pending" {{ $post->post_status == 'pending' ? 'selected': ''}}>Pending</option>
+                                                    <option value="publish" {{ $post->post_status == 'publish' ? 'selected': ''}}>Published</option>
+                                                </select>
+                                                <div class="invalid-feedback">Post status is required</div>
+                                            </div>
+                                        @endif
                                         <div>
                                             <input type="hidden" name="remove_img" id="remove_img" value="0" />
                                             <button id="payment-button" type="submit" class="btn btn-lg btn-primary btn-block">
