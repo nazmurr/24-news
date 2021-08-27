@@ -29,8 +29,11 @@
                                         <th>#</th>
                                         <th>Title</th>
                                         <th>Category</th>
-                                        <th>Owner</th>
+                                        @if (Auth::user()->role_id == 1)
+                                            <th>Owner</th>
+                                        @endif
                                         <th>Status</th>
+                                        <th>Comments</th>
                                         <th>Created</th>
                                         <th>Updated</th>
                                         <th></th>
@@ -42,7 +45,9 @@
                                             <td>{{$post->id}}</td>
                                             <td><a href="{{url('admin/posts/'.$post->id.'/edit')}}">{{$post->title}}</a></td>
                                             <td>{{$post->category->name}}</td>
-                                            <td>{{$post->user->name}}</td>
+                                            @if (Auth::user()->role_id == 1)
+                                                <td>{{$post->user->name}}</td>
+                                            @endif
                                             <td style="font-size: 16px;">
                                                 @if ($post->post_status === 'publish')
                                                     <span class="badge bg-success text-light">Published</span>
@@ -50,6 +55,7 @@
                                                     <span class="badge bg-danger text-light">Pending</span>  
                                                 @endif
                                             </td>
+                                            <td>{{$post->comments_count}}</td>
                                             <td>{{$post->created_at->diffForHumans()}}</td>
                                             <td>{{$post->updated_at->diffForHumans()}}</td>
                                             <td>

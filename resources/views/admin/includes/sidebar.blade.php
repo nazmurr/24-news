@@ -22,7 +22,7 @@
         </div>
         <nav class="navbar-sidebar2">
             <ul class="list-unstyled navbar__list">
-                <li class="has-sub">
+                <li class="has-sub {{Request::segment(2) == 'posts' ? 'active' : ''}}">
                     <a class="js-arrow" href="#">
                         <i class="fas fa-copy"></i>Posts
                         <span class="arrow">
@@ -37,6 +37,20 @@
                         <li>
                             <a href="{{url('/admin/posts/create')}}">
                                 <i class="fas fa-plus"></i>Add New</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="has-sub {{Request::segment(2) == 'comments' ? 'active' : ''}}">
+                    <a class="js-arrow" href="#">
+                        <i class="fas fa-comments"></i>Comments
+                        <span class="arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </span>
+                    </a>
+                    <ul class="list-unstyled navbar__sub-list js-sub-list">
+                        <li>
+                            <a href="{{url('/admin/comments')}}">
+                                <i class="fas fa-comments"></i>All Comments</a>
                         </li>
                     </ul>
                 </li>
@@ -59,7 +73,7 @@
                     </ul>
                 </li> --}}
                 @if (Auth::user()->role_id == 1)
-                    <li class="has-sub">
+                    <li class="has-sub {{Request::segment(2) == 'users' ? 'active' : ''}}">
                         <a class="js-arrow" href="#">
                             <i class="fas fa-user"></i>Users
                             <span class="arrow">
@@ -77,7 +91,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="has-sub">
+                    <li class="has-sub {{Request::segment(2) == 'categories' ? 'active' : ''}}">
                         <a class="js-arrow" href="#">
                             <i class="fas fa-tags"></i>Categories
                             <span class="arrow">
@@ -95,7 +109,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="{{Request::segment(2) == 'settings' ? 'active' : ''}}">
                         <a href="{{url('/admin/settings')}}">
                             <i class="fas fa-cog"></i>Settings</a>
                     </li>

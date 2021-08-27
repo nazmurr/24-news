@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\Comment;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -62,7 +63,9 @@ class PostController extends Controller
             ['id', '!=', $post->id], ['post_status', 'publish']
             ])->orderByViews()->take(4)->get();
 
-        return view('posts.single', compact('post', 'relatedPosts', 'popularPosts'));
+        $comments = Comment::where('post_id', $post->id)->orderBy('created_at', 'desc')->get();
+
+        return view('posts.single', compact('post', 'relatedPosts', 'popularPosts', 'comments'));
     }
 
     /**

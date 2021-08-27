@@ -25,6 +25,8 @@
     </div>
 </div>
 
+@include('includes.comments')
+
 @if (count($relatedPosts))
     @include('includes.trending')
 @endif

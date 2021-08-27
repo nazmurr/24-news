@@ -2,18 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use App\User;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminController extends Controller
+class CommentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -21,17 +15,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $recentPosts = [];
-        $totalUsers = 0;
-        $totalPosts = 0;
-        if (Auth::user()->role->name !== 'administrator') {
-            $recentPosts = Post::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->take(10)->get();
-        } else {
-            $totalUsers = User::count();
-            $totalPosts = Post::count();
-            $recentPosts = Post::orderBy('created_at', 'desc')->take(10)->get();
-        }
-        return view('admin.index', compact('recentPosts', 'totalUsers', 'totalPosts'));
+        //
     }
 
     /**
@@ -52,16 +36,24 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comment = $request->all();
+
+        $comment['user_id'] = Auth::user()->id;
+        
+        Comment::create($comment);
+        $refererUrl = request()->headers->get('referer');
+
+        //return redirect()->back();
+        return redirect()->to($refererUrl."#comments");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Comment $comment)
     {
         //
     }
@@ -69,10 +61,10 @@ class AdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comment $comment)
     {
         //
     }
@@ -81,10 +73,10 @@ class AdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comment $comment)
     {
         //
     }
@@ -92,10 +84,10 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
         //
     }

@@ -29,9 +29,9 @@ class AdminPostsController extends Controller
         $whereCondition = [];
         $posts = [];
         if (Auth::user()->role->name !== 'administrator') {
-            $posts = Post::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
+            $posts = Post::withCount('comments')->where('user_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
         } else {
-            $posts = Post::orderBy('id', 'desc')->paginate(10);
+            $posts = Post::withCount('comments')->orderBy('id', 'desc')->paginate(10);
         }
 
         return view('admin.posts.index', compact('posts'));

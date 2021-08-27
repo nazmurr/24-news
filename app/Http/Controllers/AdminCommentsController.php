@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\User;
+use App\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
-class AdminController extends Controller
+class AdminCommentsController extends Controller
 {
     public function __construct()
     {
@@ -21,17 +22,14 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $recentPosts = [];
-        $totalUsers = 0;
-        $totalPosts = 0;
+        $comments = [];
         if (Auth::user()->role->name !== 'administrator') {
-            $recentPosts = Post::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->take(10)->get();
+            $comments = Comment::where('user_id', Auth::user()->id)->orderBy('id', 'desc')->paginate(10);
         } else {
-            $totalUsers = User::count();
-            $totalPosts = Post::count();
-            $recentPosts = Post::orderBy('created_at', 'desc')->take(10)->get();
+            $comments = Comment::orderBy('id', 'desc')->paginate(10);
         }
-        return view('admin.index', compact('recentPosts', 'totalUsers', 'totalPosts'));
+
+        return view('admin.comments.index', compact('comments'));
     }
 
     /**
@@ -52,7 +50,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       //
     }
 
     /**
@@ -74,7 +72,13 @@ class AdminController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment = Comment::find($id);
+
+        if (($comment->user_id !== Auth::user()->id) && (Auth::user()->role->name !== 'administrator')) {
+            return redirect('admin/comments');
+        }
+        
+        return view('admin.comments.edit', compact('comment'));
     }
 
     /**
@@ -86,7 +90,17 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+
+        if (($comment->user_id !== Auth::user()->id) && (Auth::user()->role->name !== 'administrator')) {
+            return redirect('admin/comments');
+        }
+
+        $input = $request->all();
+
+        $comment->update($input);
+        Session::flash('flash_admin', 'Comment updated successfully!');
+        return redirect('admin/comments');
     }
 
     /**
@@ -97,6 +111,15 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+
+        if (($comment->user_id !== Auth::user()->id) && (Auth::user()->role->name !== 'administrator')) {
+            return redirect('admin/comments');
+        }
+        
+        $comment->delete();
+        
+        Session::flash('flash_admin', 'Comment deleted successfully!');
+        return redirect('admin/comments');
     }
 }
